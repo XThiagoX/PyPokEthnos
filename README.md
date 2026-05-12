@@ -11,4 +11,6 @@ Implementação em Python do jogo de tabuleiro Ethnos com temática Pokémon. Pr
 
 ## Licença
 
-- MIT
+MIT License
+
+Copyright (c) 2026 Φ
