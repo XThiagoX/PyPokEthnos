@@ -4,6 +4,7 @@ from PIL import Image, ImageTk
 from controller import (ControladorDoJogo, CARTA_VERSO_PATH,
                         MAPA_REGIOES_IMAGENS)
 import os
+import logging
 
 
 # Tamanhos de renderizacao das cartas (pixels)
@@ -43,12 +44,13 @@ class TkinterView:
             return None
 
         try:
-            img = Image.open(path)
-            img = img.resize((largura, altura), Image.LANCZOS)
-            tk_img = ImageTk.PhotoImage(img)
-            self._cache_imagens[cache_key] = tk_img
-            return tk_img
+            with Image.open(path) as img:
+                img = img.resize((largura, altura), Image.LANCZOS)
+                tk_img = ImageTk.PhotoImage(img)
+                self._cache_imagens[cache_key] = tk_img
+                return tk_img
         except Exception:
+            logging.exception(f"Failed to load image from {path}")
             return None
 
     def _build_ui(self):
