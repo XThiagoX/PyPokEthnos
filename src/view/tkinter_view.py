@@ -45,8 +45,9 @@ class TkinterView:
 
         try:
             with Image.open(path) as img:
-                img = img.resize((largura, altura), Image.LANCZOS)
-                tk_img = ImageTk.PhotoImage(img)
+                resized = img.resize((largura, altura), Image.LANCZOS)
+                # Copy to ensure data persists after context manager exits
+                tk_img = ImageTk.PhotoImage(resized.copy())
                 self._cache_imagens[cache_key] = tk_img
                 return tk_img
         except Exception:
