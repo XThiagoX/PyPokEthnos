@@ -27,7 +27,7 @@ POKEMON_MAPA = {
     },
     "Johto": {
         "Planta": ("Chikorita", "152.chikorita"),
-        "Fogo": ("Cyndaquil", "155.cyndaquill"),
+        "Fogo": ("Cyndaquil", "155.cyndaquil"),
         "Água": ("Totodile", "158.totodile"),
         "Pedra": ("Sudowoodo", "185.sudowoodo"),
         "Psíquico": ("Espeon", "196.espeon"),
