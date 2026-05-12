@@ -326,16 +326,29 @@ class TkinterView:
         cards_frame = tk.Frame(self.panel_mao, bg="#16213e")
         cards_frame.pack(fill=tk.X, padx=10, pady=3)
 
-        def toggle_selection(btn_widget, card_frame, idx):
+        card_frames = {}
+
+        def atualizar_estilos_selecao():
+            for card_frame in card_frames.values():
+                card_frame.config(bg="#16213e", bd=2)
+
+            if not self.selecao_indices_mao:
+                return
+
+            idx_lider = self.selecao_indices_mao[0]
+            if idx_lider in card_frames:
+                card_frames[idx_lider].config(bg="#f1c40f", bd=4)
+
+            for idx in self.selecao_indices_mao[1:]:
+                if idx in card_frames:
+                    card_frames[idx].config(bg="#bdc3c7", bd=3)
+
+        def toggle_selection(idx):
             if idx in self.selecao_indices_mao:
                 self.selecao_indices_mao.remove(idx)
-                card_frame.config(bg="#16213e", bd=2)
             else:
                 self.selecao_indices_mao.append(idx)
-                if len(self.selecao_indices_mao) == 1:
-                    card_frame.config(bg="#f1c40f", bd=4)
-                else:
-                    card_frame.config(bg="#bdc3c7", bd=3)
+            atualizar_estilos_selecao()
 
         for i, c in enumerate(jogador.mao):
             card_container = tk.Frame(
@@ -343,6 +356,7 @@ class TkinterView:
                 bd=2, relief=tk.RAISED
             )
             card_container.pack(side=tk.LEFT, padx=3, pady=2)
+            card_frames[i] = card_container
 
             card_img = self._carregar_imagem(
                 c.imagem_path, CARTA_MAO_W, CARTA_MAO_H
@@ -357,8 +371,7 @@ class TkinterView:
                 )
                 btn.image = card_img
                 btn.config(
-                    command=lambda b=btn, cf=card_container, idx=i:
-                    toggle_selection(b, cf, idx)
+                    command=lambda idx=i: toggle_selection(idx)
                 )
                 btn.pack()
             else:
@@ -370,8 +383,7 @@ class TkinterView:
                     cursor="hand2"
                 )
                 btn.config(
-                    command=lambda b=btn, cf=card_container, idx=i:
-                    toggle_selection(b, cf, idx)
+                    command=lambda idx=i: toggle_selection(idx)
                 )
                 btn.pack()
 
